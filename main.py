@@ -22,7 +22,46 @@ GREEN = (50, 230, 40)
 CHAR_COL = (255, 30, 70)
 
 # Classes
-    
+class Paddle:
+    def __init__(self, color, AI=False):
+        self.x = 30
+        self.y = CENTER_Y
+        self.dx = 0
+        self.dy = 0
+        self.w = 15
+        self.h = 45
+        self.color = color
+        self.AI = AI
+        
+    def update(self, ball):
+        #AI if computer controlled
+        if self.AI is True:
+            if ball.y > self.y + (self.h / 2):
+                self.dy = 5 * (1 - (self.x - ball.x))
+            if ball.y < self.y + (self.h / 2):
+                self.dy = -5 * (1 - (self.x - ball.x))
+        
+        self.x += self.dx
+        self.y += self.dy
+        
+    def draw(self):
+        pygame.draw.rect(WINDOW, self.color, self)
+
+class Ball:
+    def __init__(self, radius, color):
+        self.x = CENTER_X
+        self.y = CENTER_Y
+        self.dx = 0
+        self.dy = 0
+        self.r = radius
+        
+    def update(self):
+        self.x += self.dx
+        self.y += self.dy
+        
+    def draw(self, surf):
+        pygame.draw.circle(surf, self.color, (self.x, self.y), self.r)
+        
 # Objects
 
 WINDOW = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
